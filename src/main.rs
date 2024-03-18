@@ -2,35 +2,35 @@ use macroquad::prelude::*;
 
 // creates the actual window and and gives it a name
 #[macroquad::main("CSPFinal")]
-
 async fn main() {
+    
+    struct Player {
+        pos: Vec2,
+        speed: Vec2
+    }
 
-    let mut player = draw_rectangle(screen_width() / 2.0, screen_height() / 2.0, 10.0, 10.0, GREEN);
-    let mut speed = 10.0; // probably should have a speed variable to move
+    let mut player = Player {
+        pos: vec2(screen_width() / 2., screen_height() / 2.),
+        speed: vec2(5., 5.)
+    };
 
     loop {
         clear_background(BLACK);
 
-        let mut player_pos = vec2(screen_width() / 2.0, screen_height() / 2.0);
-
         if is_key_down(KeyCode::W) {
-            // move up 
-            player_pos.y += speed;
+            player.pos.y -= player.speed.y;
         }
         if is_key_down(KeyCode::S) {
-            // move down 
-            player_pos.y -= speed;
+            player.pos.y += player.speed.y;
         }
         if is_key_down(KeyCode::A) {
-            // move left 
-            player_pos.x -= speed;
+            player.pos.x -= player.speed.x;
         }
         if is_key_down(KeyCode::D) {
-            // move right
-            player_pos.x += speed;
+            player.pos.x += player.speed.x;
         }
 
-
+        draw_rectangle(player.pos.x, player.pos.y, 10., 10., GREEN);
 
         next_frame().await; // I think this draws
     }
