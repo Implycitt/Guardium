@@ -44,8 +44,3 @@ fn setup(
     });
 }
 
-fn move_player(keys: Res<Input<KeyCode>>) {
-    if keys.just_pressed(KeyCode::W) {
-        // move player, todo tomorrow.
-    }
-}
