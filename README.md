@@ -43,7 +43,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li><a href="#Screenshots">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -107,7 +107,7 @@ To compile the project locally, ensure that [rust](https://www.rust-lang.org/too
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<!-- USAGE EXAMPLES -->
+<!-- SCREENSHOTS -->
 ## Screenshots
 
 Going to use this space to add screenshots of gameplay when there is some
@@ -191,5 +191,5 @@ Project Link: [https://github.com/Imlycitt/CSPFinal](https://github.com/Implycit
 [product-screenshot]: assets/FirstBuild.png
 [Rust]: https://img.shields.io/badge/Rust-black?style=for-the-badge&logo=rust&logoColor=#E57324
 [rust-url]: https://www.rust-lang.org/
-[bevy]: [https://img.shields.io/badge/Bevy-232326?logo=bevy&logoColor=fff&style=flat]
+[bevy]: https://img.shields.io/badge/Bevy-232326?logo=bevy&logoColor=fff&style=flat
 [bevy-url]: https://bevyengine.org/
