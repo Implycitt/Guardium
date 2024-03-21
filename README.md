@@ -43,7 +43,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#Screenshots">Usage</a></li>
+    <li><a href="#Screenshots">Screenshots</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -55,7 +55,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+![Product Name Screen Shot][product-screenshot]
 
 A (multiplayer?) strategy tower defence game create in rust using the bevy game engine. The project is my AP Computer Science Principles final.
 
