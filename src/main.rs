@@ -1,46 +1,56 @@
-use bevy::{
-    core_pipeline::{
-        bloom::{BloomCompositeMode, BloomSettings},
-        tonemapping::Tonemapping,
-    },
-    prelude::*,
-    sprite::MaterialMesh2dBundle,
-};
+use bevy::prelude::*;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins(
+            DefaultPlugins
+                .set(ImagePlugin::default_nearest())
+                .set(WindowPlugin {
+                    primary_window: Some(Window {
+                        title: "CSPFinal".into(),
+                        resolution: (640.0, 480.0).into(),
+                        resizable: false,
+                        ..default()
+                    }),
+                    ..default()
+                })
+                .build(),
+        )
         .add_systems(Startup, setup)
+        .add_systems(Update, character_movement)
         .run();
 }
 
-fn setup(
-    mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<ColorMaterial>>,
-    asset_server: Res<AssetServer>,
-) {
-    commands.spawn((
-        Camera2dBundle {
-            camera: Camera {
-                hdr: true, // 1. HDR is required for bloom
-                ..default()
-            },
-            tonemapping: Tonemapping::TonyMcMapface, // 2. Using a tonemapper that desaturates to white is recommended
+fn setup(mut commands: Commands) {
+    commands.spawn(Camera2dBundle::default());
+
+    commands.spawn(SpriteBundle {
+        sprite: Sprite {
+            custom_size: Some(Vec2::new(100.0, 100.0)),
             ..default()
         },
-        BloomSettings::default(), // 3. Enable bloom for the camera
-    ));
-
-    // Circle mesh
-    commands.spawn(MaterialMesh2dBundle {
-        mesh: meshes.add(Circle::new(10.)).into(),
-        // 4. Put something bright in a dark environment to see the effect
-        material: materials.add(Color::rgb(7.5, 0.0, 7.5)),
-        // transform: Transform::from_translation(Vec3::new(-200., 0., 0.)),
-        // the idea of the line above is just to move or transform the Circle
-        // to the left 200 pixels
         ..default()
     });
+}
+
+fn character_movement(
+    mut characters: Query<(&mut Transform, &Sprite)>,
+    input: Res<ButtonInput<KeyCode>>,
+    time: Res<Time>,
+) {
+    for (mut transform, _) in &mut characters {
+        if input.pressed(KeyCode::KeyW) {
+            transform.translation.y += 100.0 * time.delta_seconds();
+        }
+        if input.pressed(KeyCode::KeyS) {
+            transform.translation.y -= 100.0 * time.delta_seconds();
+        }
+        if input.pressed(KeyCode::KeyD) {
+            transform.translation.x += 100.0 * time.delta_seconds();
+        }
+        if input.pressed(KeyCode::KeyA) {
+            transform.translation.x -= 100.0 * time.delta_seconds();
+        }
+    }
 }
 
