@@ -1,11 +1,14 @@
 use bevy::prelude::*;
 
 mod plugins;
-use plugins::camera::CameraPlugin;
+use plugins::{
+    camera::CameraPlugin,
+    enemies::EnemyPlugin,
+};
 
 fn main() {
     App::new()
-        .add_plugins(CameraPlugin)
+        .add_plugins((CameraPlugin, EnemyPlugin))
         .add_plugins(
             DefaultPlugins
                 .set(ImagePlugin::default_nearest())
@@ -26,8 +29,6 @@ fn main() {
 }
 
 fn setup(mut commands: Commands) {
-    commands.spawn(Camera2dBundle::default());
-
     commands.spawn(SpriteBundle {
         sprite: Sprite {
             custom_size: Some(Vec2::new(100.0, 100.0)),
