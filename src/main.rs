@@ -1,7 +1,11 @@
 use bevy::prelude::*;
 
+mod plugins;
+use plugins::camera::CameraPlugin;
+
 fn main() {
     App::new()
+        .add_plugins(CameraPlugin)
         .add_plugins(
             DefaultPlugins
                 .set(ImagePlugin::default_nearest())
