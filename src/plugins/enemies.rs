@@ -29,8 +29,14 @@ fn spawn_enemies(
 
         commands.spawn(
             SpriteBundle {
-                transform: Transform::from_xyz(random_x, random_y, 0.),
+                // enemies spawn outside view sometimes which might be what we want later on since
+                // they will move towards the tower.
+                transform: Transform::from_xyz(random_x, random_y, 0.0),
                 texture: asset_server.load("sprites/ball.png"),
+                sprite: Sprite {
+                    custom_size: Some(Vec2::new(30., 30.)),
+                    ..default()
+                },
                 ..default()
             },
         );
