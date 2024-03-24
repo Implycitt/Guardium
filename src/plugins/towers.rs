@@ -32,7 +32,7 @@ fn add_tower(
         damage: 100,
         speed: 2.,
         health: 1000.,
-        pos: Vec2::new(window.width() / 2., window.height() / 2.), 
+        pos: Vec2::new(0., 0.), 
     };
 
     commands.spawn(

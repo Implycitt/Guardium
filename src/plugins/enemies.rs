@@ -2,6 +2,7 @@ use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 
 use rand::prelude::*;
+use rand::Rng;
 
 pub struct EnemyPlugin;
 
@@ -14,7 +15,7 @@ impl Plugin for EnemyPlugin {
 #[derive(Component)]
 pub struct Enemy {}
 
-pub const NUMBER_OF_ENEMIES: usize = 4;
+pub const NUMBER_OF_ENEMIES: usize = 20;
 
 fn spawn_enemies(
     mut commands: Commands,
@@ -24,8 +25,9 @@ fn spawn_enemies(
     let window = window_query.get_single().unwrap();
 
     for _ in 0..NUMBER_OF_ENEMIES {
-        let random_x = random::<f32>() * window.width();
-        let random_y = random::<f32>() * window.height();
+
+        let random_x = rand::thread_rng().gen_range(-window.width()/2.0..window.width()/2.0); 
+        let random_y = rand::thread_rng().gen_range(-window.height()/2.0..window.height()/2.0);
 
         commands.spawn(
             SpriteBundle {
