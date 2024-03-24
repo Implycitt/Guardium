@@ -1,7 +1,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Implycitt/CSPFinal">
-    <img src="assets/rustimage.png" alt="Logo" width="80" height="80">
+    <img src="assets/github/rustimage.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">CSPFinal</h3>
@@ -188,7 +188,7 @@ Project Link: [https://github.com/Imlycitt/CSPFinal](https://github.com/Implycit
 [issues-url]: https://github.com/Implycitt/CSPFinal/issues
 [license-shield]: https://img.shields.io/github/license/Implycitt/CSPFinal.svg?style=for-the-badge
 [license-url]: https://github.com/Implycitt/CSPFinal/blob/master/LICENSE.txt
-[product-screenshot]: assets/FirstBuild.png
+[product-screenshot]: assets/github/FirstBuild.png
 [Rust]: https://img.shields.io/badge/Rust-black?style=for-the-badge&logo=rust&logoColor=#E57324
 [rust-url]: https://www.rust-lang.org/
 [bevy]: https://img.shields.io/badge/Bevy-232326?logo=bevy&logoColor=fff&style=flat
