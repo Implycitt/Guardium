@@ -10,13 +10,17 @@ impl Plugin for TowerPlugin {
 }
 
 #[derive(Component)]
-struct Tower {
+pub struct Tower {
     level: usize,
     range: f32,
     damage: i32,
     speed: f32,
-    health: f32,
     pos: Vec2
+}
+
+#[derive(Component)]
+pub struct Health {
+    health: f32,
 }
 
 fn add_tower(
@@ -31,7 +35,6 @@ fn add_tower(
         range: 10.,
         damage: 100,
         speed: 2.,
-        health: 1000.,
         pos: Vec2::new(0., 0.), 
     };
 
