@@ -1,8 +1,10 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, time::common_conditions::on_timer};
 use bevy::window::PrimaryWindow;
 
 use rand::prelude::*;
 use rand::Rng;
+
+use std::time::Duration;
 
 use crate::plugins::towers::{
     Tower,
@@ -11,29 +13,30 @@ use crate::plugins::towers::{
 
 pub struct EnemyPlugin;
 
-impl Plugin for EnemyPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(Startup, spawn_enemies);
-        app.add_systems(Update, update_enemy);
-    }
-} 
-
 #[derive(Component)]
 pub struct Enemy {
     pub health: f32,
 }
 
+impl Plugin for EnemyPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_systems(Update,
+            (
+                spawn_enemies.run_if(on_timer(Duration::from_secs_f32(2.0))),
+                update_enemy,
+            )
+        );
+    }
+} 
+
 pub const NUMBER_OF_ENEMIES: usize = 20;
 
 fn spawn_enemies(
     mut commands: Commands,
-    window_query: Query<&Window, With<PrimaryWindow>>,
     asset_server: Res<AssetServer>,
     enemy_query: Query<&Transform, (With<Enemy>, Without<Tower>)>,
     player_query: Query<&Transform, With<Enemy>>,
 ) {
-    let window = window_query.get_single().unwrap();
-
     for _ in 0..NUMBER_OF_ENEMIES {
 
         // get enemies to spawn in circle around tower: Get a random angle
@@ -64,10 +67,8 @@ fn update_enemy(
     mut enemy_query: Query<&mut Transform, (With<Enemy>, Without<Tower>)>
 ) {
     if player_query.is_empty() || enemy_query.is_empty() {
-        println!("Empty");
         return;
     }
-    println!("Not empty");
     let player_pos = player_query.single().translation;
     let speed = 1.0;
     for mut transform in enemy_query.iter_mut() {

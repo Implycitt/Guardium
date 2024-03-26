@@ -1,5 +1,8 @@
-use bevy::prelude::*;
-use bevy::window::*;
+use bevy::{
+    core::FrameCount,
+    prelude::*,
+    window::*,
+};
 
 mod plugins;
 use plugins::{
@@ -21,12 +24,27 @@ fn main() {
                         // mode: WindowMode::BorderlessFullscreen,
                         window_theme: Some(WindowTheme::Dark),
                         present_mode: PresentMode::AutoVsync,
+                        visible: false,
                         ..default()
                     }),
                     ..default()
                 })
                 .build(),
         )
+        .add_systems(
+            Update,
+            (
+                make_visible,
+            ),
+        )
         .run();
 }
 
+fn make_visible(
+    mut window: Query<&mut Window>, 
+    frames: Res<FrameCount>
+) {
+    if frames.0 == 3 {
+        window.single_mut().visible = true;
+    }
+}
