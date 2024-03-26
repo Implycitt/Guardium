@@ -4,6 +4,8 @@ use bevy::{
     window::*,
 };
 
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
+
 mod plugins;
 use plugins::{
     camera::CameraPlugin,
@@ -37,6 +39,7 @@ fn main() {
                 make_visible,
             ),
         )
+        .add_plugins(WorldInspectorPlugin::new())
         .run();
 }
 

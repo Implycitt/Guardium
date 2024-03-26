@@ -18,11 +18,19 @@ pub struct Enemy {
     pub health: f32,
 }
 
+impl Default for Enemy {
+    fn default() -> Self {
+        Self {
+            health: 10.0,
+        }
+    }
+}
+
 impl Plugin for EnemyPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Update,
             (
-                spawn_enemies.run_if(on_timer(Duration::from_secs_f32(2.0))),
+                spawn_enemies.run_if(on_timer(Duration::from_secs_f32(5.0))),
                 update_enemy,
             )
         );
@@ -48,6 +56,7 @@ fn spawn_enemies(
         let y: f32 = r * theta.sin();
 
         commands.spawn((
+            Enemy::default(),
             SpriteBundle {
                 transform: Transform::from_xyz(x, y, 0.0),
                 texture: asset_server.load("sprites/ball.png"),
@@ -57,7 +66,6 @@ fn spawn_enemies(
                 },
                 ..default()
             },
-            Enemy::default(),
         ));
     }
 }
@@ -76,12 +84,4 @@ fn update_enemy(
         transform.translation += dir * speed;
     }
 
-}
-
-impl Default for Enemy {
-    fn default() -> Self {
-        Self {
-            health: 10.0,
-        }
-    }
 }

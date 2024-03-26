@@ -18,6 +18,18 @@ pub struct Tower {
     pos: Vec2
 }
 
+impl Default for Tower {
+    fn default() -> Self {
+        Self {
+            level: 1,
+            range: 10.0,
+            damage: 10,
+            speed: 1.0,
+            pos: Vec2::new(0., 0.),
+        }
+    }
+}
+
 #[derive(Component)]
 pub struct Health {
     health: f32,
@@ -38,11 +50,12 @@ fn add_tower(
         pos: Vec2::new(0., 0.), 
     };
 
-    commands.spawn(
+    commands.spawn((
         SpriteBundle {
             transform: Transform::from_xyz(tower.pos.x, tower.pos.y, 0.),
             texture: asset_server.load("sprites/tower.png"),
             ..default()
-        }
-    );
+        },
+        Tower::default()
+    ));
 }
