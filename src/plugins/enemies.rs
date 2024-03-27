@@ -26,24 +26,24 @@ impl Default for Enemy {
     }
 }
 
+pub const NUMBER_OF_ENEMIES: usize = 20;
+// small constant between each spawn to see the code in effect. to change.
+pub const TIME_BETWEEN_WAVES: f32 = 2.0;
+
 impl Plugin for EnemyPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Update,
             (
-                spawn_enemies.run_if(on_timer(Duration::from_secs_f32(5.0))),
+                spawn_enemies.run_if(on_timer(Duration::from_secs_f32(TIME_BETWEEN_WAVES))),
                 update_enemy,
             )
         );
     }
 } 
 
-pub const NUMBER_OF_ENEMIES: usize = 20;
-
 fn spawn_enemies(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    enemy_query: Query<&Transform, (With<Enemy>, Without<Tower>)>,
-    player_query: Query<&Transform, With<Enemy>>,
 ) {
     for _ in 0..NUMBER_OF_ENEMIES {
 

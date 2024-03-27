@@ -6,6 +6,15 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = "0.13.1"
+# make sure to get rid of the dynamic_linking when releasing 
+bevy = { version = "0.13.0", features = ["dynamic_linking"] }
+
 bevy-inspector-egui = "0.23.4"
+
 rand = "0.8.5"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3

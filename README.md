@@ -119,9 +119,10 @@ Going to use this space to add screenshots of gameplay when there is some
 <!-- ROADMAP -->
 ## Roadmap
 
+Roadmap to be updated with some specifics maybe and hopefully a full tree of features to add
+- [x] enemies that spawn randomly around tower
+    - [x] find shortest path to tower
 - [ ] tower that shoots at nearest enemy
-- [ ] enemies that spawn randomly around tower
-    - [ ] find shortest path to tower
 - [ ] wave system for rounds
 - [ ] Resources
     - [ ] Inventory and resource management
