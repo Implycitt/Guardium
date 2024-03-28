@@ -42,17 +42,9 @@ fn add_tower(
 ) {
     let window = window_query.get_single().unwrap();
 
-    let tower = Tower {
-        level: 1,
-        range: 10.,
-        damage: 100,
-        speed: 2.,
-        pos: Vec2::new(0., 0.), 
-    };
-
     commands.spawn((
         SpriteBundle {
-            transform: Transform::from_xyz(tower.pos.x, tower.pos.y, 0.),
+            transform: Transform::from_xyz(0., 0., 0.),
             texture: asset_server.load("sprites/tower.png"),
             ..default()
         },
