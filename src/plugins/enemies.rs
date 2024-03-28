@@ -7,8 +7,7 @@ use rand::Rng;
 use std::time::Duration;
 
 use crate::plugins::towers::{
-    Tower,
-    Health,
+    TowerStats,
 };
 
 pub struct EnemyPlugin;
@@ -71,8 +70,8 @@ fn spawn_enemies(
 }
 
 fn update_enemy(
-    player_query: Query<&Transform, With<Tower>>,
-    mut enemy_query: Query<&mut Transform, (With<Enemy>, Without<Tower>)>
+    player_query: Query<&Transform, With<TowerStats>>,
+    mut enemy_query: Query<&mut Transform, (With<Enemy>, Without<TowerStats>)>
 ) {
     if player_query.is_empty() || enemy_query.is_empty() {
         return;
