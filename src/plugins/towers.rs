@@ -2,6 +2,7 @@ use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 
 use crate::plugins::enemies::Enemy;
+use crate::plugins::bullets::*;
 
 pub struct TowerPlugin;
 
@@ -93,6 +94,7 @@ fn shoot_enemies(
                     .translation
                     .truncate()
                     .distance(transform.translation.truncate());
+
                 dist <= tower_stats.range
             });
 
@@ -101,9 +103,10 @@ fn shoot_enemies(
             // im not sure what this is supposed to do at all.
             bullet_translation.y += 24.0; 
 
-            bullets.spawn_bullets(
+            spawn_bullets(
                 bullet_translation,
                 enemy,
+                ..default()
             )
         }
     }

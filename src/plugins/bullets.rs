@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
-use crate::plugins::enemies::Enemy;
+use crate::plugins::{
+    enemies::Enemy,
+    towers::TowerStats,
+};
 
 pub struct BulletPlugin;
 
@@ -15,15 +18,15 @@ pub struct Bullet {
     target: Enemy,
 }
 
-fn spawn_bullets(
+pub fn spawn_bullets(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    translation: Vec3,
     target: Enemy,
+    translation: Vec3,
 ) {
     commands.spawn((
         Bullet {
-            target,
+            target: target,
         },
         SpriteBundle {
             transform: Transform::from_translation(translation),
@@ -39,8 +42,8 @@ fn spawn_bullets(
 
 fn update_bullets(
     mut commands: Commands,
-    mut enemy_query: Query<&mut Transform, (With<Enemy>, Without<Bullet>)>,
     mut bullet_query: Query<(&mut Transform, &mut Bullet)>,
+    time: Res<Time>,
 ) {
     todo!();
 }
