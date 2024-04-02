@@ -1,9 +1,7 @@
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 
-use crate::plugins::{
-    enemies::Enemy, bullets,
-};
+use crate::plugins::enemies::Enemy;
 
 pub struct TowerPlugin;
 
@@ -38,6 +36,11 @@ pub struct TowerBundle {
     pub stats: TowerStats,
     pub state: TowerState,
     pub health: Health,
+}
+
+#[derive(Component)]
+pub struct Bullet {
+    //target: Enemy,
 }
 
 impl TowerBundle {
@@ -77,6 +80,23 @@ fn add_tower(
     ));
 }
 
+pub fn spawn_bullets(
+    commands: &mut Commands,
+    tex: Handle<Image>,
+) {
+    commands.spawn((
+        Bullet{},
+        SpriteBundle {
+            texture: tex,
+            sprite: Sprite {
+                custom_size: Some(Vec2::new(10., 10.)),
+                ..default()
+            },
+            ..default()
+        },
+    ));
+} 
+
 fn shoot_enemies(
     mut commands: Commands,
     mut tower_query: Query<(&Transform, &mut TowerState, &TowerStats)>,
@@ -90,8 +110,8 @@ fn shoot_enemies(
             continue;
         }
 
+        let texture = asset_server.load("sprites/bullet.png");
         // spawn bullets
-        bullets::spawn_bullets(&mut commands, asset_server);
-
+        spawn_bullets(&mut commands, texture);
     }
 }
