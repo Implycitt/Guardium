@@ -1,14 +1,16 @@
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 
-use crate::plugins::enemies::Enemy;
-use crate::plugins::bullets::*;
+use crate::plugins::{
+    enemies::Enemy, bullets,
+};
 
 pub struct TowerPlugin;
 
 impl Plugin for TowerPlugin {
     fn build(&self, app: &mut App) {
-       app.add_systems(Startup, add_tower); 
+       app.add_systems(Startup, add_tower);
+       app.add_systems(Update, shoot_enemies);
     }
 }
 
@@ -78,6 +80,7 @@ fn add_tower(
 fn shoot_enemies(
     mut commands: Commands,
     mut tower_query: Query<(&Transform, &mut TowerState, &TowerStats)>,
+    asset_server: Res<AssetServer>,
     enemy_query: Query<&Transform, With<Enemy>>,
     time: Res<Time>,
 ) {
@@ -87,27 +90,8 @@ fn shoot_enemies(
             continue;
         }
 
-        let mut in_range = enemy_query
-            .iter()
-            .filter(|(_, _, enemy_transform)| {
-                let dist = enemy_transform
-                    .translation
-                    .truncate()
-                    .distance(transform.translation.truncate());
+        // spawn bullets
+        bullets::spawn_bullets(&mut commands, asset_server);
 
-                dist <= tower_stats.range
-            });
-
-        if let Some((enemy, _, _,)) = in_range.next() {
-            let mut bullet_translation = transform.translation;
-            // im not sure what this is supposed to do at all.
-            bullet_translation.y += 24.0; 
-
-            spawn_bullets(
-                bullet_translation,
-                enemy,
-                ..default()
-            )
-        }
     }
 }

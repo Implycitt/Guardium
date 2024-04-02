@@ -15,21 +15,21 @@ impl Plugin for BulletPlugin {
 
 #[derive(Component)]
 pub struct Bullet {
-    target: Enemy,
+    //target: Enemy,
 }
 
 pub fn spawn_bullets(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    target: Enemy,
-    translation: Vec3,
+    //target: Enemy,
+    //translation: Vec3,
 ) {
     commands.spawn((
         Bullet {
-            target: target,
+            //target: target,
         },
         SpriteBundle {
-            transform: Transform::from_translation(translation),
+            //transform: Transform::from_translation(translation),
             texture: asset_server.load("sprites/bullet.png"),
             sprite: Sprite {
                 custom_size: Some(Vec2::new(10., 10.)),
