@@ -83,6 +83,7 @@ fn add_tower(
 pub fn spawn_bullets(
     commands: &mut Commands,
     tex: Handle<Image>,
+    target: Entity,
 ) {
     commands.spawn((
         Bullet{},
@@ -105,13 +106,28 @@ fn shoot_enemies(
     time: Res<Time>,
 ) {
     for (transform, mut tower_state, tower_stats) in tower_query.iter_mut() {
+
         tower_state.timer.tick(time.delta());
+
         if !tower_state.timer.finished() {
             continue;
         }
 
+        let mut in_range = enemy_query
+            .iter()
+            .filter(|enemy_transform| {
+                let dist = enemy_transform.translation.truncate().distance(transform.translation.truncate());
+                dist <= tower_stats.range
+            });
+
+        if let Some(enemy) = in_range.next() {
+           let mut bullet_translation = transform.translation; 
+        }
+
+        // load texture for the bullet
         let texture = asset_server.load("sprites/bullet.png");
+
         // spawn bullets
-        spawn_bullets(&mut commands, texture);
+        spawn_bullets(&mut commands, texture, enemy);
     }
 }
