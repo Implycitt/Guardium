@@ -8,7 +8,7 @@ pub struct TowerPlugin;
 impl Plugin for TowerPlugin {
     fn build(&self, app: &mut App) {
        app.add_systems(Startup, add_tower);
-       app.add_systems(Update, shoot_enemies);
+       app.add_systems(Update, (shoot_enemies, update_bullets));
     }
 }
 
@@ -40,7 +40,8 @@ pub struct TowerBundle {
 
 #[derive(Component)]
 pub struct Bullet {
-    //target: Enemy,
+    speed: f32,
+    target: Entity,
 }
 
 impl TowerBundle {
@@ -83,10 +84,13 @@ fn add_tower(
 pub fn spawn_bullets(
     commands: &mut Commands,
     tex: Handle<Image>,
-    target: Entity,
+    targ: Entity,
 ) {
     commands.spawn((
-        Bullet{},
+        Bullet{
+            target: targ,
+            speed: 30.,
+        },
         SpriteBundle {
             texture: tex,
             sprite: Sprite {
@@ -124,10 +128,40 @@ fn shoot_enemies(
            let mut bullet_translation = transform.translation; 
         }
 
-        // load texture for the bullet
+        let enemy = in_range.next();
+
         let texture = asset_server.load("sprites/bullet.png");
 
-        // spawn bullets
         spawn_bullets(&mut commands, texture, enemy);
+    }
+}
+
+fn update_bullets(
+    mut commands: Commands,
+    target_query: Query<&Transform, Without<Bullet>>,
+    query: Query<(Entity, &mut Transform, &mut Bullet)>,
+    time: Res<Time>
+) {
+    for (entity, mut transform, mut bullet) in query.iter_mut() {
+        let Ok(target_transform) = target_query.get_mut(bullet.target)
+        else {
+            commands.entity(entity).despawn_recursive();
+            continue;
+        };
+
+        let target_pos = target_transform.translation.truncate();
+        let bullet_pos = transform.translation.truncate();
+
+        let dist = bullet_pos.distance(target_pos);
+
+        let delta = time.delta_seconds();
+        let step = bullet.speed * delta;
+
+        if step < dist {
+            let dir = (target_pos - bullet_pos).normalize_or_zero();
+            transform.translation += (dir * step).extend(0.);
+
+            continue;
+        }
     }
 }
