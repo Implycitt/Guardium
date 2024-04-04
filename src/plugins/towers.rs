@@ -1,5 +1,4 @@
 use bevy::prelude::*;
-use bevy::window::PrimaryWindow;
 
 use crate::plugins::enemies::Enemy;
 
@@ -66,11 +65,8 @@ impl TowerBundle {
 
 fn add_tower(
     mut commands: Commands,
-    window_query: Query<&Window, With<PrimaryWindow>>,
     asset_server: Res<AssetServer>,
 ) {
-    let window = window_query.get_single().unwrap();
-
     commands.spawn((
         SpriteBundle {
             transform: Transform::from_xyz(0., 0., 0.),
@@ -102,6 +98,7 @@ pub fn spawn_bullets(
     ));
 } 
 
+// somewhere in this code more than one bullet at a time is being spawned
 fn shoot_enemies(
     mut commands: Commands,
     mut tower_query: Query<(&Transform, &mut TowerState, &TowerStats)>,
@@ -155,10 +152,12 @@ fn update_bullets(
         let delta = time.delta_seconds();
         let step = bullet.speed * delta;
 
+        let damage = 50.0;
         if step < dist {
             let dir = (target_pos - bullet_pos).normalize_or_zero();
             transform.translation += (dir * step).extend(0.);
-
+        } else {
+            //health.sub(damage);
             continue;
         }
     }

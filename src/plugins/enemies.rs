@@ -1,5 +1,4 @@
 use bevy::{prelude::*, time::common_conditions::on_timer};
-use bevy::window::PrimaryWindow;
 
 use rand::prelude::*;
 use rand::Rng;
