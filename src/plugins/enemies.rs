@@ -5,28 +5,29 @@ use rand::Rng;
 
 use std::time::Duration;
 
-use crate::plugins::towers::{
-    TowerStats,
+use crate::plugins::{
+    towers::TowerStats,
+    hitpoints::HitPoints,
 };
 
 pub struct EnemyPlugin;
 
 #[derive(Component)]
 pub struct Enemy {
-    pub health: f32,
+    pub health: HitPoints,
 }
 
 impl Default for Enemy {
     fn default() -> Self {
         Self {
-            health: 10.0,
+            health: HitPoints::default(),
         }
     }
 }
 
 pub const NUMBER_OF_ENEMIES: usize = 5;
 // small constant between each spawn to see the code in effect. to change.
-pub const TIME_BETWEEN_WAVES: f32 = 10.0;
+pub const TIME_BETWEEN_WAVES: f32 = 2.0;
 
 impl Plugin for EnemyPlugin {
     fn build(&self, app: &mut App) {

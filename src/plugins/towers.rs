@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
-use crate::plugins::enemies::Enemy;
+use crate::plugins::{
+    enemies::Enemy,
+    hitpoints::HitPoints,
+};
 
 pub struct TowerPlugin;
 
@@ -26,7 +29,7 @@ pub struct TowerState {
 }
 
 #[derive(Component)]
-pub struct Health {
+pub struct TowerHealth {
     health: f32,
 }
 
@@ -34,13 +37,14 @@ pub struct Health {
 pub struct TowerBundle {
     pub stats: TowerStats,
     pub state: TowerState,
-    pub health: Health,
+    pub health: TowerHealth,
 }
 
 #[derive(Component)]
 pub struct Bullet {
     speed: f32,
     target: Entity,
+    damage: u32,
 }
 
 impl TowerBundle {
@@ -48,7 +52,7 @@ impl TowerBundle {
         Self {
             stats: TowerStats {
                 level: 1,
-                range: 300.0,
+                range: 500.0,
                 damage: 10,
                 speed: 10.0,
                 pos: Vec2::new(0., 0.,),
@@ -56,7 +60,7 @@ impl TowerBundle {
             state: TowerState {
                 timer: Timer::from_seconds(1., TimerMode::Repeating)
             },
-            health: Health {
+            health: TowerHealth {
                 health: 1000.,
             }
         }
@@ -85,7 +89,8 @@ pub fn spawn_bullets(
     commands.spawn((
         Bullet{
             target: targ,
-            speed: 100.,
+            speed: 500.,
+            damage: 50,
         },
         SpriteBundle {
             texture: tex,
@@ -98,7 +103,6 @@ pub fn spawn_bullets(
     ));
 } 
 
-// somewhere in this code more than one bullet at a time is being spawned
 fn shoot_enemies(
     mut commands: Commands,
     mut tower_query: Query<(&Transform, &mut TowerState, &TowerStats)>,
@@ -121,24 +125,24 @@ fn shoot_enemies(
             let enemy_pos = enemy_transform.translation.truncate();
             if pos.distance_squared(enemy_pos) > range_squared {
                 continue;
-            }
-
+            } 
+            // if you remove the break below you have a tower that shoots
+            // all enemies; this could be used in the future ?
             let texture = asset_server.load("sprites/bullet.png");
-
             spawn_bullets(&mut commands, texture, entity);
-
+            break; 
         }
     }
 }
 
 fn update_bullets(
     mut commands: Commands,
-    mut target_query: Query<&Transform, Without<Bullet>>,
+    mut target_query: Query<(&mut Enemy, &Transform), Without<Bullet>>,
     mut query: Query<(Entity, &mut Transform, &mut Bullet)>,
     time: Res<Time>
 ) {
     for (entity, mut transform, mut bullet) in query.iter_mut() {
-        let Ok(target_transform) = target_query.get_mut(bullet.target)
+        let Ok((mut health, target_transform)) = target_query.get_mut(bullet.target)
         else {
             commands.entity(entity).despawn_recursive();
             continue;
@@ -152,12 +156,11 @@ fn update_bullets(
         let delta = time.delta_seconds();
         let step = bullet.speed * delta;
 
-        let damage = 50.0;
         if step < dist {
             let dir = (target_pos - bullet_pos).normalize_or_zero();
             transform.translation += (dir * step).extend(0.);
         } else {
-            //health.sub(damage);
+            //health.sub(bullet.damage);
             continue;
         }
     }
