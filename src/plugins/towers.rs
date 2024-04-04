@@ -49,7 +49,7 @@ impl TowerBundle {
         Self {
             stats: TowerStats {
                 level: 1,
-                range: 100.0,
+                range: 300.0,
                 damage: 10,
                 speed: 10.0,
                 pos: Vec2::new(0., 0.,),
@@ -89,7 +89,7 @@ pub fn spawn_bullets(
     commands.spawn((
         Bullet{
             target: targ,
-            speed: 30.,
+            speed: 100.,
         },
         SpriteBundle {
             texture: tex,
@@ -106,7 +106,7 @@ fn shoot_enemies(
     mut commands: Commands,
     mut tower_query: Query<(&Transform, &mut TowerState, &TowerStats)>,
     asset_server: Res<AssetServer>,
-    enemy_query: Query<&Transform, With<Enemy>>,
+    enemy_query: Query<(Entity, &Transform), With<Enemy>>,
     time: Res<Time>,
 ) {
     for (transform, mut tower_state, tower_stats) in tower_query.iter_mut() {
@@ -117,29 +117,27 @@ fn shoot_enemies(
             continue;
         }
 
-        let mut in_range = enemy_query
-            .iter()
-            .filter(|enemy_transform| {
-                let dist = enemy_transform.translation.truncate().distance(transform.translation.truncate());
-                dist <= tower_stats.range
-            });
+        let range_squared = tower_stats.range * tower_stats.range;
+        let pos = transform.translation.truncate();
 
-        if let Some(enemy) = in_range.next() {
-           let mut bullet_translation = transform.translation; 
+        for (entity, enemy_transform) in &enemy_query {
+            let enemy_pos = enemy_transform.translation.truncate();
+            if pos.distance_squared(enemy_pos) > range_squared {
+                continue;
+            }
+
+            let texture = asset_server.load("sprites/bullet.png");
+
+            spawn_bullets(&mut commands, texture, entity);
+
         }
-
-        let enemy = in_range.next();
-
-        let texture = asset_server.load("sprites/bullet.png");
-
-        spawn_bullets(&mut commands, texture, enemy);
     }
 }
 
 fn update_bullets(
     mut commands: Commands,
-    target_query: Query<&Transform, Without<Bullet>>,
-    query: Query<(Entity, &mut Transform, &mut Bullet)>,
+    mut target_query: Query<&Transform, Without<Bullet>>,
+    mut query: Query<(Entity, &mut Transform, &mut Bullet)>,
     time: Res<Time>
 ) {
     for (entity, mut transform, mut bullet) in query.iter_mut() {

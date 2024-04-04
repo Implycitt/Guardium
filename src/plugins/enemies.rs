@@ -25,9 +25,9 @@ impl Default for Enemy {
     }
 }
 
-pub const NUMBER_OF_ENEMIES: usize = 20;
+pub const NUMBER_OF_ENEMIES: usize = 5;
 // small constant between each spawn to see the code in effect. to change.
-pub const TIME_BETWEEN_WAVES: f32 = 2.0;
+pub const TIME_BETWEEN_WAVES: f32 = 10.0;
 
 impl Plugin for EnemyPlugin {
     fn build(&self, app: &mut App) {
@@ -77,7 +77,7 @@ fn update_enemy(
         return;
     }
     let player_pos = player_query.single().translation;
-    let speed = 1.0;
+    let speed = 0.2;
     for mut transform in enemy_query.iter_mut() {
         let dir = (player_pos - transform.translation).normalize();
         transform.translation += dir * speed;
