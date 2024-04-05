@@ -1,4 +1,7 @@
-use bevy::{prelude::*, time::common_conditions::on_timer};
+use bevy::{
+    prelude::*,
+    time::common_conditions::on_timer
+};
 
 use rand::prelude::*;
 use rand::Rng;
@@ -14,20 +17,20 @@ pub struct EnemyPlugin;
 
 #[derive(Component)]
 pub struct Enemy {
-    pub health: HitPoints,
+    pub health: i32,
 }
 
 impl Default for Enemy {
     fn default() -> Self {
         Self {
-            health: HitPoints::default(),
+            health: 50,
         }
     }
 }
 
-pub const NUMBER_OF_ENEMIES: usize = 5;
+pub const NUMBER_OF_ENEMIES: usize = 10;
 // small constant between each spawn to see the code in effect. to change.
-pub const TIME_BETWEEN_WAVES: f32 = 2.0;
+pub const TIME_BETWEEN_WAVES: f32 = 5.0;
 
 impl Plugin for EnemyPlugin {
     fn build(&self, app: &mut App) {
@@ -35,6 +38,7 @@ impl Plugin for EnemyPlugin {
             (
                 spawn_enemies.run_if(on_timer(Duration::from_secs_f32(TIME_BETWEEN_WAVES))),
                 update_enemy,
+                check_death,
             )
         );
     }
@@ -55,7 +59,9 @@ fn spawn_enemies(
         let y: f32 = r * theta.sin();
 
         commands.spawn((
-            Enemy::default(),
+            Enemy {
+                health: 50,
+            },
             SpriteBundle {
                 transform: Transform::from_xyz(x, y, 0.0),
                 texture: asset_server.load("sprites/ball.png"),
@@ -77,10 +83,22 @@ fn update_enemy(
         return;
     }
     let player_pos = player_query.single().translation;
-    let speed = 0.2;
+    let speed = 0.1;
     for mut transform in enemy_query.iter_mut() {
         let dir = (player_pos - transform.translation).normalize();
         transform.translation += dir * speed;
     }
 
+}
+
+fn check_death(
+    enemy_query: Query<(Entity, &Enemy), With<Enemy>>,
+    mut commands: Commands,
+) {
+    for (entity, enemy) in &enemy_query {
+        if !enemy.health <= 0 {
+            continue;
+        }
+        commands.entity(entity).despawn();
+    }
 }

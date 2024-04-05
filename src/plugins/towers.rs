@@ -2,7 +2,6 @@ use bevy::prelude::*;
 
 use crate::plugins::{
     enemies::Enemy,
-    hitpoints::HitPoints,
 };
 
 pub struct TowerPlugin;
@@ -18,7 +17,7 @@ impl Plugin for TowerPlugin {
 pub struct TowerStats {
     level: usize,
     range: f32,
-    damage: i32,
+    damage: u32,
     speed: f32,
     pos: Vec2
 }
@@ -30,7 +29,7 @@ pub struct TowerState {
 
 #[derive(Component)]
 pub struct TowerHealth {
-    health: f32,
+    health: i32,
 }
 
 #[derive(Bundle)]
@@ -44,7 +43,7 @@ pub struct TowerBundle {
 pub struct Bullet {
     speed: f32,
     target: Entity,
-    damage: u32,
+    damage: i32,
 }
 
 impl TowerBundle {
@@ -58,10 +57,10 @@ impl TowerBundle {
                 pos: Vec2::new(0., 0.,),
             },
             state: TowerState {
-                timer: Timer::from_seconds(1., TimerMode::Repeating)
+                timer: Timer::from_seconds(0.3, TimerMode::Repeating)
             },
             health: TowerHealth {
-                health: 1000.,
+                health: 1000,
             }
         }
     }
@@ -137,12 +136,12 @@ fn shoot_enemies(
 
 fn update_bullets(
     mut commands: Commands,
-    mut target_query: Query<(&mut Enemy, &Transform), Without<Bullet>>,
+    mut target_query: Query<(&mut Enemy, &Transform), (With<Enemy>, Without<Bullet>)>,
     mut query: Query<(Entity, &mut Transform, &mut Bullet)>,
     time: Res<Time>
 ) {
-    for (entity, mut transform, mut bullet) in query.iter_mut() {
-        let Ok((mut health, target_transform)) = target_query.get_mut(bullet.target)
+    for (mut entity, mut transform, mut bullet) in query.iter_mut() {
+        let Ok((mut enemy, target_transform)) = target_query.get_mut(bullet.target)
         else {
             commands.entity(entity).despawn_recursive();
             continue;
@@ -160,8 +159,7 @@ fn update_bullets(
             let dir = (target_pos - bullet_pos).normalize_or_zero();
             transform.translation += (dir * step).extend(0.);
         } else {
-            //health.sub(bullet.damage);
-            continue;
+            enemy.health -= bullet.damage;
         }
     }
 }

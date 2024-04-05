@@ -25,6 +25,7 @@ impl HitPoints {
             max: val,
         }
     }
+
     pub fn sub(&mut self, val: u32) {
         self.current = self.current.saturating_sub(val);
     }
