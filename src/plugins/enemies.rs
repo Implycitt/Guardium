@@ -10,7 +10,6 @@ use std::time::Duration;
 
 use crate::plugins::{
     towers::TowerStats,
-    hitpoints::HitPoints,
 };
 
 pub struct EnemyPlugin;
