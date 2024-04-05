@@ -101,7 +101,9 @@ To compile the project locally, ensure that [rust](https://www.rust-lang.org/too
    ```
 2. Build using cargo
    ```sh
+   //only builds the program
    cargo build
+   //builds and runs
    cargo run
    ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -122,7 +124,7 @@ Going to use this space to add screenshots of gameplay when there is some
 Roadmap to be updated with some specifics maybe and hopefully a full tree of features to add
 - [x] enemies that spawn randomly around tower
     - [x] find shortest path to tower
-- [ ] tower that shoots at nearest enemy
+- [x] tower that shoots at nearest enemy
 - [ ] wave system for rounds
 - [ ] Resources
     - [ ] Inventory and resource management
@@ -189,7 +191,7 @@ Project Link: [https://github.com/Imlycitt/CSPFinal](https://github.com/Implycit
 [issues-url]: https://github.com/Implycitt/CSPFinal/issues
 [license-shield]: https://img.shields.io/github/license/Implycitt/CSPFinal.svg?style=for-the-badge
 [license-url]: https://github.com/Implycitt/CSPFinal/blob/master/LICENSE.txt
-[product-screenshot]: assets/github/Update23.03.24.png
+[product-screenshot]: assets/github/firstGIF.gif
 [Rust]: https://img.shields.io/badge/Rust-black?style=for-the-badge&logo=rust&logoColor=#E57324
 [rust-url]: https://www.rust-lang.org/
 [bevy]: https://img.shields.io/badge/Bevy-232326?logo=bevy&logoColor=fff&style=flat
