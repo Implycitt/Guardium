@@ -10,6 +10,7 @@ use std::time::Duration;
 
 use crate::plugins::{
     towers::TowerStats,
+    state::GameState,
 };
 
 pub struct EnemyPlugin;
@@ -35,7 +36,7 @@ impl Plugin for EnemyPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Update,
             (
-                spawn_enemies.run_if(on_timer(Duration::from_secs_f32(TIME_BETWEEN_WAVES))),
+                spawn_enemies.run_if(on_timer(Duration::from_secs_f32(TIME_BETWEEN_WAVES))).run_if(in_state(GameState::Playing)),
                 update_enemy,
                 check_death,
             )
@@ -85,6 +86,11 @@ fn update_enemy(
     let speed = 0.1;
     for mut transform in enemy_query.iter_mut() {
         let dir = (player_pos - transform.translation).normalize();
+
+        if player_pos - transform.translation < dir*speed {
+            
+        }
+
         transform.translation += dir * speed;
     }
 
