@@ -4,10 +4,10 @@ pub struct UIPlugin;
 
 impl Plugin for UIPlugin {
     fn build(&self, app: &mut App) {
-        app.init_resrouce::<UIAssets>()
-            .add_systems(Update, button_style);
+        app.add_systems(Update, button_style);
     }
 }
 
-// idk about this yet
-pub struct UIAssets;
+pub fn button_style() {
+    todo!();
+}

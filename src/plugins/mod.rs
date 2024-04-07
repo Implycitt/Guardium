@@ -6,3 +6,4 @@ pub mod waves;
 pub mod main_menu;
 pub mod game_over;
 pub mod ui;
+pub mod util;
