@@ -2,13 +2,14 @@ use bevy::prelude::*;
 
 use crate::plugins::{
     enemies::Enemy,
+    state::GameState,
 };
 
 pub struct TowerPlugin;
 
 impl Plugin for TowerPlugin {
     fn build(&self, app: &mut App) {
-       app.add_systems(Startup, add_tower);
+       app.add_systems(Startup, add_tower.run_if(in_state(GameState::Playing)));
        app.add_systems(Update, (shoot_enemies, update_bullets));
     }
 }
@@ -29,7 +30,7 @@ pub struct TowerState {
 
 #[derive(Component)]
 pub struct TowerHealth {
-    health: i32,
+    pub health: i32,
 }
 
 #[derive(Bundle)]
