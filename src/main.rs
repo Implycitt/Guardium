@@ -7,14 +7,17 @@ use bevy::{
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 
 mod plugins;
+
 use plugins::{
     camera::CameraPlugin,
     enemies::EnemyPlugin,
     towers::TowerPlugin,
+    state::GameState,
 };
 
 fn main() {
     App::new()
+        .init_state::<GameState>()
         .add_plugins((CameraPlugin, EnemyPlugin, TowerPlugin))
         .add_plugins(
             DefaultPlugins

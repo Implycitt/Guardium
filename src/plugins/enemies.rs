@@ -10,10 +10,23 @@ use std::time::Duration;
 
 use crate::plugins::{
     towers::TowerStats,
+    towers::TowerHealth,
     state::GameState,
 };
 
 pub struct EnemyPlugin;
+
+impl Plugin for EnemyPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_systems(Update,
+            (
+                spawn_enemies.run_if(on_timer(Duration::from_secs_f32(TIME_BETWEEN_WAVES))).run_if(in_state(GameState::Playing)),
+                update_enemy,
+                check_death,
+            )
+        );
+    }
+} 
 
 #[derive(Component)]
 pub struct Enemy {
@@ -28,21 +41,37 @@ impl Default for Enemy {
     }
 }
 
+#[derive(Component)]
+pub struct AttackTimer {
+    pub timer: Timer,
+}
+
+impl Default for AttackTimer {
+    fn default() -> Self {
+        Self {
+            timer: Timer::from_seconds(1.0, TimerMode::Repeating)
+        }
+    }
+}
+
+pub struct EnemyBundle {
+    enemy: Enemy,
+    timer: AttackTimer,
+}
+
+impl EnemyBundle {
+    pub fn new() -> Self {
+        Self {
+            enemy: Enemy::default(),
+            timer: AttackTimer::default(),
+        }
+    }
+}
+
+// this stuff is going to be shoved into the waves module
 pub const NUMBER_OF_ENEMIES: usize = 10;
 // small constant between each spawn to see the code in effect. to change.
 pub const TIME_BETWEEN_WAVES: f32 = 5.0;
-
-impl Plugin for EnemyPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(Update,
-            (
-                spawn_enemies.run_if(on_timer(Duration::from_secs_f32(TIME_BETWEEN_WAVES))).run_if(in_state(GameState::Playing)),
-                update_enemy,
-                check_death,
-            )
-        );
-    }
-} 
 
 fn spawn_enemies(
     mut commands: Commands,
@@ -85,13 +114,11 @@ fn update_enemy(
     let player_pos = player_query.single().translation;
     let speed = 0.1;
     for mut transform in enemy_query.iter_mut() {
+
         let dir = (player_pos - transform.translation).normalize();
 
-        if player_pos - transform.translation < dir*speed {
-            
-        }
-
         transform.translation += dir * speed;
+
     }
 
 }
@@ -106,4 +133,10 @@ fn check_death(
         }
         commands.entity(entity).despawn();
     }
+}
+
+fn attack(
+    mut commands: Commands,
+) {
+    todo!();
 }
