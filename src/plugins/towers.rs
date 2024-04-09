@@ -89,7 +89,7 @@ pub fn spawn_bullets(
     commands.spawn((
         Bullet{
             target: targ,
-            speed: 500.,
+            speed: 1000.,
             damage: 50,
         },
         SpriteBundle {

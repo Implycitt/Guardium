@@ -9,8 +9,6 @@ edition = "2021"
 # make sure to get rid of the dynamic_linking when releasing 
 bevy = { version = "0.13.0", features = ["dynamic_linking"] }
 
-bevy_nine_slice_ui = "0.6.0"
-
 bevy_pipelines_ready = "0.3.0"
 
 bevy-inspector-egui = "0.23.4"

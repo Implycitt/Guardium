@@ -3,7 +3,6 @@ use bevy::{
     asset::UntypedAssetId,
 };
 
-use bevy_nine_slice_ui::NineSliceUiTexture;
 use bevy_pipelines_ready::PipelinesReadyPlugin;
 
 pub struct LoadingPlugin;

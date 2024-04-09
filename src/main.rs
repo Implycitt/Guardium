@@ -13,14 +13,11 @@ use plugins::{
     enemies::EnemyPlugin,
     towers::TowerPlugin,
     state::GameState,
-    main_menu::MainMenuPlugin,
-    ui::UIPlugin,
 };
 
 fn main() {
     App::new()
         .init_state::<GameState>()
-        .add_plugins((CameraPlugin, EnemyPlugin, TowerPlugin, MainMenuPlugin, UIPlugin))
         .add_plugins(
             DefaultPlugins
                 .set(ImagePlugin::default_nearest())
@@ -44,7 +41,9 @@ fn main() {
                 make_visible,
             ),
         )
+        .add_plugins((CameraPlugin, EnemyPlugin, TowerPlugin))
         .add_plugins(WorldInspectorPlugin::new())
+        .init_state::<GameState>()
         .run();
 }
 
