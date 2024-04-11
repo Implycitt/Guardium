@@ -90,7 +90,7 @@ pub fn spawn_bullets(
         Bullet{
             target: targ,
             speed: 1000.,
-            damage: 50,
+            damage: 5,
         },
         SpriteBundle {
             texture: tex,
