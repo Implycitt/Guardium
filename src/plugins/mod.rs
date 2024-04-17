@@ -8,3 +8,4 @@ pub mod game_over;
 pub mod ui;
 pub mod util;
 pub mod loading;
+pub mod resources;

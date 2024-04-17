@@ -3,6 +3,7 @@ use bevy::prelude::*;
 use crate::plugins::{
     enemies::Enemy,
     state::GameState,
+    resources::CursorPosition,
 };
 
 pub struct TowerPlugin;
@@ -10,7 +11,7 @@ pub struct TowerPlugin;
 impl Plugin for TowerPlugin {
     fn build(&self, app: &mut App) {
        app.add_systems(Startup, add_tower.run_if(in_state(GameState::Playing)));
-       app.add_systems(Update, (shoot_enemies, update_bullets));
+       app.add_systems(Update, manual_shoot_enemies);
     }
 }
 
@@ -162,5 +163,33 @@ fn update_bullets(
         } else {
             enemy.health -= bullet.damage;
         }
+    }
+}
+
+fn manual_shoot_enemies(
+    mut commands: Commands,
+    mut tower_query: Query<(&Transform, &mut TowerState), With<TowerStats>>,
+    cursor_pos: Res<CursorPosition>,
+    time: Res<Time>,
+) {
+    if tower_query.is_empty() {
+        return;
+    }
+
+    let (tower_transform, mut tower_timer) = tower_query.single_mut();
+    let tower_pos = tower_transform.translation.truncate();
+    let cursor_pos = match cursor_pos.0 {
+        Some(pos) => pos,
+        None => tower_pos,
+    };
+
+    let angle = tower_pos.angle_between(cursor_pos);
+    tower_timer.timer.tick(time.delta());
+
+    let bullet_direction = tower_transform.local_x();
+    if tower_timer.timer.elapsed_secs() >= 0.0 {
+        println!("This is working");
+        tower_timer.timer.reset();
+
     }
 }
