@@ -75,6 +75,7 @@ fn add_tower(
     commands.spawn((
         SpriteBundle {
             transform: Transform::from_xyz(0., 0., 0.),
+            // tower asset not loading for now
             texture: asset_server.load("sprites/tower.png"),
             ..default()
         },
