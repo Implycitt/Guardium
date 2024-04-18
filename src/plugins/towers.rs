@@ -1,4 +1,9 @@
-use bevy::prelude::*;
+use std::f32::consts::PI;
+
+use bevy::{
+    prelude::*,
+    math::{vec2, vec3},
+};
 
 use crate::plugins::{
     enemies::Enemy,
@@ -11,7 +16,7 @@ pub struct TowerPlugin;
 impl Plugin for TowerPlugin {
     fn build(&self, app: &mut App) {
        app.add_systems(Startup, add_tower.run_if(in_state(GameState::Playing)));
-       app.add_systems(Update, manual_shoot_enemies);
+       app.add_systems(Update, (manual_shoot_enemies, manual_update_bullets));
     }
 }
 
@@ -48,6 +53,12 @@ pub struct Bullet {
     damage: i32,
 }
 
+#[derive(Component)]
+pub struct ManualBullet;
+
+#[derive(Component)]
+struct BulletDirection(Vec3);
+
 impl TowerBundle {
     pub fn new() -> Self {
         Self {
@@ -59,7 +70,7 @@ impl TowerBundle {
                 pos: Vec2::new(0., 0.,),
             },
             state: TowerState {
-                timer: Timer::from_seconds(0.3, TimerMode::Repeating)
+                timer: Timer::from_seconds(0.5, TimerMode::Repeating)
             },
             health: TowerHealth {
                 health: 1000,
@@ -170,6 +181,7 @@ fn update_bullets(
 fn manual_shoot_enemies(
     mut commands: Commands,
     mut tower_query: Query<(&Transform, &mut TowerState), With<TowerStats>>,
+    asset_server: Res<AssetServer>,
     cursor_pos: Res<CursorPosition>,
     time: Res<Time>,
 ) {
@@ -184,13 +196,36 @@ fn manual_shoot_enemies(
         None => tower_pos,
     };
 
-    let angle = tower_pos.angle_between(cursor_pos);
     tower_timer.timer.tick(time.delta());
 
-    let bullet_direction = tower_transform.local_x();
-    if tower_timer.timer.elapsed_secs() >= 0.0 {
-        println!("This is working");
+    if tower_timer.timer.elapsed_secs() >= 0.3 {
         tower_timer.timer.reset();
 
+        let dir = Vec3::new(cursor_pos.x, cursor_pos.y, 0.0);
+
+        commands.spawn((
+            SpriteBundle {
+                texture: asset_server.load("sprites/bullet.png"),
+                sprite: Sprite {
+                    custom_size: Some(Vec2::new(10., 10.)),
+                    ..default()
+                },
+                ..default()
+            },
+            ManualBullet,
+            BulletDirection(dir),
+        ));
+    }
+}
+
+fn manual_update_bullets(
+    mut bullet_query: Query<(&mut Transform, &BulletDirection), With<ManualBullet>> 
+) {
+    if bullet_query.is_empty() {
+        return;
+    }
+
+    for (mut t, dir) in bullet_query.iter_mut() {
+        t.translation += dir.0.normalize() * Vec3::splat(5.0);
     }
 }
