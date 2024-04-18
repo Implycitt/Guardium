@@ -12,9 +12,10 @@ use plugins::{
     camera::CameraPlugin,
     enemies::EnemyPlugin,
     towers::TowerPlugin,
-    state::GameState,
+    state::{GameState, StatePlugin},
     resources::ResourcesPlugin,
     collisions::CollisionPlugin,
+    game_over::GameOverPlugin,
 };
 
 fn main() {
@@ -43,7 +44,7 @@ fn main() {
                 make_visible,
             ),
         )
-        .add_plugins((CameraPlugin, EnemyPlugin, TowerPlugin, ResourcesPlugin, CollisionPlugin))
+        .add_plugins((CameraPlugin, EnemyPlugin, TowerPlugin, ResourcesPlugin, CollisionPlugin, StatePlugin, GameOverPlugin))
         .add_plugins(WorldInspectorPlugin::new())
         .run();
 }

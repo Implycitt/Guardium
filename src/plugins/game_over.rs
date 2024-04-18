@@ -9,24 +9,33 @@ pub struct GameOverPlugin;
 
 impl Plugin for GameOverPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::GameOver), init);
-        app.add_systems(OnExit(GameState::GameOver), cleanup::<GameOverScene>);
-        app.add_systems(Update, menu_button.run_if(in_state(GameState::GameOver)));
+        app.add_systems(OnEnter(GameState::GameOver), setup);
     }
 }
 
 #[derive(Component)]
-struct GameOverScene;
+struct FpsText;
 
 #[derive(Component)]
-struct MenuButton;
+struct ColorText;
 
-fn init(
-    mut commands: Commands,
-) {
-    todo!();
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+    commands.spawn((
+        TextBundle::from_section(
+            "hello\nbevy!",
+            TextStyle {
+                font_size: 100.0,
+                ..default()
+            },
+        ) 
+        .with_text_justify(JustifyText::Center)
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            bottom: Val::Px(5.0),
+            right: Val::Px(5.0),
+            ..default()
+        }),
+        ColorText,
+    ));
 }
 
-fn menu_button() {
-    todo!();
-}

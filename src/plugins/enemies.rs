@@ -119,7 +119,7 @@ fn update_enemy(
         return;
     }
     let player_pos = player_query.single().translation;
-    let speed = 0.1;
+    let speed = 0.8;
     for mut transform in enemy_query.iter_mut() {
 
         let dir = (player_pos - transform.translation).normalize();
