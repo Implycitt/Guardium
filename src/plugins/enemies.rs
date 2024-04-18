@@ -41,6 +41,13 @@ impl Default for Enemy {
     }
 }
 
+#[derive(Component, Default)]
+pub enum EnemyState {
+    #[default]
+    Moving,
+    Attacking,
+}
+
 #[derive(Component)]
 pub struct AttackTimer {
     pub timer: Timer,

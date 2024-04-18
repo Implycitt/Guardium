@@ -3,6 +3,7 @@ use std::f32::consts::PI;
 use bevy::{
     prelude::*,
     math::{vec2, vec3},
+    utils::Instant,
 };
 
 use crate::plugins::{
@@ -15,8 +16,10 @@ pub struct TowerPlugin;
 
 impl Plugin for TowerPlugin {
     fn build(&self, app: &mut App) {
-       app.add_systems(Startup, add_tower.run_if(in_state(GameState::Playing)));
-       app.add_systems(Update, (manual_shoot_enemies, manual_update_bullets));
+       app.add_event::<PlayerEnemyCollisionEvent>()
+            .add_systems(Startup, add_tower.run_if(in_state(GameState::Playing)))
+            .add_systems(Update, (manual_shoot_enemies, manual_update_bullets, despawn_bullets, handle_collision_events)
+                .run_if(in_state(GameState::Playing)));
     }
 }
 
@@ -58,6 +61,26 @@ pub struct ManualBullet;
 
 #[derive(Component)]
 struct BulletDirection(Vec3);
+
+#[derive(Component)]
+struct SpawnInstant(Instant);
+
+#[derive(Event)]
+pub struct PlayerEnemyCollisionEvent;
+
+fn handle_collision_events(
+    mut tower_query: Query<&mut TowerHealth, With<TowerHealth>>,
+    mut events: EventReader<PlayerEnemyCollisionEvent>,
+) {
+    if tower_query.is_empty() {
+        return;
+    }
+
+    let mut health = tower_query.single_mut();
+    for _ in events.read() {
+        health.health -= 50;
+    }
+}
 
 impl TowerBundle {
     pub fn new() -> Self {
@@ -210,10 +233,12 @@ fn manual_shoot_enemies(
                     custom_size: Some(Vec2::new(10., 10.)),
                     ..default()
                 },
+                transform: Transform::from_translation(vec3(0.0, 10.0, 0.0)),
                 ..default()
             },
             ManualBullet,
             BulletDirection(dir),
+            SpawnInstant(Instant::now()),
         ));
     }
 }
@@ -227,5 +252,16 @@ fn manual_update_bullets(
 
     for (mut t, dir) in bullet_query.iter_mut() {
         t.translation += dir.0.normalize() * Vec3::splat(5.0);
+    }
+}
+
+fn despawn_bullets(
+    mut commands: Commands,
+    bullet_query: Query<(&SpawnInstant, Entity), With<ManualBullet>>,
+) {
+    for (instant, e) in bullet_query.iter() {
+        if instant.0.elapsed().as_secs_f32() > 2.0 {
+            commands.entity(e).despawn();
+        }
     }
 }
