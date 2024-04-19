@@ -18,7 +18,7 @@ impl Plugin for TowerPlugin {
     fn build(&self, app: &mut App) {
        app.add_event::<PlayerEnemyCollisionEvent>()
             .add_systems(Startup, add_tower.run_if(in_state(GameState::Playing)))
-            .add_systems(Update, (/*manual_shoot_enemies,*/ manual_update_bullets, despawn_bullets, handle_collision_events)
+            .add_systems(Update, (manual_shoot_enemies, manual_update_bullets, despawn_bullets, handle_collision_events)
                 .run_if(in_state(GameState::Playing)));
     }
 }
