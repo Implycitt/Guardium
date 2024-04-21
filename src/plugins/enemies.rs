@@ -12,6 +12,11 @@ use crate::plugins::{
     towers::TowerStats,
     towers::TowerHealth,
     state::GameState,
+    waves::{ 
+        WavePlugin,
+        Waves,
+        WaveState,
+    }
 };
 
 pub struct EnemyPlugin;
@@ -20,10 +25,10 @@ impl Plugin for EnemyPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Update,
             (
-                spawn_enemies.run_if(on_timer(Duration::from_secs_f32(TIME_BETWEEN_WAVES))).run_if(in_state(GameState::Playing)),
+                spawn_enemies.run_if(on_timer(Duration::from_secs_f32(TIME_BETWEEN_WAVES))),
                 update_enemy,
                 check_death,
-            )
+            ).run_if(in_state(GameState::Playing)),
         );
     }
 } 
@@ -81,9 +86,17 @@ pub const NUMBER_OF_ENEMIES: usize = 10;
 pub const TIME_BETWEEN_WAVES: f32 = 5.0;
 
 fn spawn_enemies(
+    mut wave_state: ResMut<WaveState>,
+    mut waves: ResMut<Waves>,
     mut commands: Commands,
     asset_server: Res<AssetServer>,
 ) {
+    let Some(current_wave) = waves.current() else {
+        println!("Not working");
+        return;
+    };
+
+    println!("{:?}", waves.current());
     for _ in 0..NUMBER_OF_ENEMIES {
 
         // get enemies to spawn in circle around tower: Get a random angle
@@ -142,8 +155,3 @@ fn check_death(
     }
 }
 
-fn attack(
-    mut commands: Commands,
-) {
-    todo!();
-}
