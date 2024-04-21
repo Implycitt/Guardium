@@ -17,6 +17,7 @@ use plugins::{
     collisions::CollisionPlugin,
     game_over::GameOverPlugin,
     waves::WavePlugin,
+    ui::UIPlugin,
 };
 
 fn main() {
@@ -45,7 +46,16 @@ fn main() {
                 make_visible,
             ),
         )
-        .add_plugins((CameraPlugin, EnemyPlugin, TowerPlugin, ResourcesPlugin, CollisionPlugin, StatePlugin, GameOverPlugin, WavePlugin))
+        .add_plugins((CameraPlugin,
+            EnemyPlugin,
+            TowerPlugin,
+            ResourcesPlugin,
+            CollisionPlugin,
+            StatePlugin,
+            GameOverPlugin, 
+            WavePlugin,
+            UIPlugin,
+        ))
         .add_plugins(WorldInspectorPlugin::new())
         .run();
 }

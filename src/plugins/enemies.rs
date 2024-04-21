@@ -91,12 +91,11 @@ fn spawn_enemies(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
 ) {
-    let Some(current_wave) = waves.current() else {
-        println!("Not working");
-        return;
-    };
+    //let Some(current_wave) = waves.current() else {
+        //println!("Not working");
+        //return;
+    //};
 
-    println!("{:?}", waves.current());
     for _ in 0..NUMBER_OF_ENEMIES {
 
         // get enemies to spawn in circle around tower: Get a random angle
