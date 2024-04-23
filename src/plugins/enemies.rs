@@ -91,10 +91,11 @@ fn spawn_enemies(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
 ) {
-    //let Some(current_wave) = waves.current() else {
-        //println!("Not working");
-        //return;
-    //};
+
+    let Some(w) = waves.current() else {
+        println!("no");
+        return;
+    };
 
     for _ in 0..NUMBER_OF_ENEMIES {
 

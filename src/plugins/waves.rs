@@ -51,7 +51,7 @@ impl Default for Wave {
     }
 }
 
-#[derive(Component, Resource, Debug)]
+#[derive(Resource, Debug)]
 pub struct WaveState {
     pub delay_timer: Timer,
     pub spawn_timer: Timer,
