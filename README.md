@@ -1,10 +1,6 @@
 <br />
 <div align="center">
-  <a href="https://github.com/Implycitt/Guardium">
-    <img src="assets/github/rustimage.png" alt="Logo" width="80" height="80">
-  </a>
-
-<h3 align="center">Guardium</h3>
+  <h3 align="center">Guardium</h3>
 
   <p align="center">
     Tower defense game written entirely in Rust.
