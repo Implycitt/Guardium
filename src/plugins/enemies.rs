@@ -80,10 +80,8 @@ impl EnemyBundle {
     }
 }
 
-// this stuff is going to be shoved into the waves module
 pub const NUMBER_OF_ENEMIES: usize = 10;
-// small constant between each spawn to see the code in effect. to change.
-pub const TIME_BETWEEN_WAVES: f32 = 5.0;
+pub const TIME_BETWEEN_WAVES: f32 = 10.0;
 
 fn spawn_enemies(
     mut wave_state: ResMut<WaveState>,
@@ -92,18 +90,11 @@ fn spawn_enemies(
     asset_server: Res<AssetServer>,
 ) {
 
-    let Some(w) = waves.current() else {
-        println!("no");
-        return;
-    };
-
     for _ in 0..NUMBER_OF_ENEMIES {
 
-        // get enemies to spawn in circle around tower: Get a random angle
         let r = 500.0;
         let theta: f32 = rand::thread_rng().gen_range(0.0..360.0);
 
-        // convert polar to rectangular 
         let x: f32 = r * theta.cos();
         let y: f32 = r * theta.sin();
 
@@ -132,7 +123,7 @@ fn update_enemy(
         return;
     }
     let player_pos = player_query.single().translation;
-    let speed = 0.8;
+    let speed = 0.4;
     for mut transform in enemy_query.iter_mut() {
 
         let dir = (player_pos - transform.translation).normalize();

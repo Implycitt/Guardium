@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+// use bevy::ui::prelude::*;
 
 use crate::plugins::{
     util::cleanup,
@@ -13,29 +14,6 @@ impl Plugin for GameOverPlugin {
     }
 }
 
-#[derive(Component)]
-struct FpsText;
-
-#[derive(Component)]
-struct ColorText;
-
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    commands.spawn((
-        TextBundle::from_section(
-            "hello\nbevy!",
-            TextStyle {
-                font_size: 100.0,
-                ..default()
-            },
-        ) 
-        .with_text_justify(JustifyText::Center)
-        .with_style(Style {
-            position_type: PositionType::Absolute,
-            bottom: Val::Px(5.0),
-            right: Val::Px(5.0),
-            ..default()
-        }),
-        ColorText,
-    ));
 }
 

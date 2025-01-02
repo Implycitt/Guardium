@@ -1,20 +1,20 @@
 <br />
 <div align="center">
-  <a href="https://github.com/Implycitt/CSPFinal">
+  <a href="https://github.com/Implycitt/Guardium">
     <img src="assets/github/rustimage.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">CSPFinal</h3>
+<h3 align="center">Guardium</h3>
 
   <p align="center">
-    Final project for AP Computer Science principles.
+    Tower defense game written entirely in Rust.
     <br />
     <br />
-    <a href="https://github.com/Implycitt/CSPFinal">View Demo</a>
+    <a href="https://github.com/Implycitt/Guardium">View Demo</a>
     ·
-    <a href="https://github.com/Implycitt/CSPFinal/issues">Report Bug</a>
+    <a href="https://github.com/Implycitt/Guardium/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Implycitt/CSPFinal/issues">Request Feature</a>
+    <a href="https://github.com/Implycitt/Guardium/issues">Request Feature</a>
   </p>
 </div>
 
@@ -47,7 +47,6 @@
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
@@ -57,7 +56,7 @@
 
 ![Product Name Screen Shot][product-screenshot]
 
-A (multiplayer?) strategy tower defence game create in rust using the bevy game engine. The project is my AP Computer Science Principles final.
+A strategy tower defense game create in rust using the bevy game engine. The project is my AP Computer Science Principles final.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -67,7 +66,6 @@ A (multiplayer?) strategy tower defence game create in rust using the bevy game 
 
 * [![Rust]][rust-url]
 * [![Bevy]][bevy-url]
-* More to come
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -91,13 +89,13 @@ To compile the project locally, ensure that [rust](https://www.rust-lang.org/too
 
 ### Releases tab:
 
-1. download executable from the [Releases](https://github.com/Implycitt/CSPFinal/releases) tab
+1. download executable from the [Releases](https://github.com/Implycitt/Guardium/releases) tab
 2. Run the Executable
 
 ### Compiling and running localy:
 1. Clone the repo
    ```sh
-   git clone https://github.com/Implycitt/CSPFinal.git
+   git clone https://github.com/Implycitt/Guardium.git
    ```
 2. Build using cargo
    ```sh
@@ -140,7 +138,7 @@ Roadmap to be updated with some specifics maybe and hopefully a full tree of fea
 - [ ] Menu; main and options
 - [ ] Music
 
-See the [open issues](https://github.com/Implycitt/CSPFinal/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/Implycitt/Guardium/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -171,26 +169,17 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<!-- CONTACT -->
-## Contact
-
-Project Link: [https://github.com/Imlycitt/CSPFinal](https://github.com/Implycitt/CSPFinal)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/Implycitt/CSPFinal.svg?style=for-the-badge
-[contributors-url]: https://github.com/Implycitt/CSPFinal/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Implycitt/CSPFinal.svg?style=for-the-badge
-[forks-url]: https://github.com/Implycitt/CSPFinal/network/members
-[stars-shield]: https://img.shields.io/github/stars/Implycitt/CSPFinal.svg?style=for-the-badge
-[stars-url]: https://github.com/Implycitt/CSPFinal/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Implycitt/CSPFinal.svg?style=for-the-badge
-[issues-url]: https://github.com/Implycitt/CSPFinal/issues
-[license-shield]: https://img.shields.io/github/license/Implycitt/CSPFinal.svg?style=for-the-badge
-[license-url]: https://github.com/Implycitt/CSPFinal/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/Implycitt/Guardium.svg?style=for-the-badge
+[contributors-url]: https://github.com/Implycitt/Guardium/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Implycitt/Guardium.svg?style=for-the-badge
+[forks-url]: https://github.com/Implycitt/Guardium/network/members
+[stars-shield]: https://img.shields.io/github/stars/Implycitt/Guardium.svg?style=for-the-badge
+[stars-url]: https://github.com/Implycitt/Guardium/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Implycitt/Guardium.svg?style=for-the-badge
+[issues-url]: https://github.com/Implycitt/Guardium/issues
+[license-shield]: https://img.shields.io/github/license/Implycitt/Guardium.svg?style=for-the-badge
+[license-url]: https://github.com/Implycitt/Guardium/blob/master/LICENSE.txt
 [product-screenshot]: assets/github/firstGIF.gif
 [Rust]: https://img.shields.io/badge/Rust-black?style=for-the-badge&logo=rust&logoColor=#E57324
 [rust-url]: https://www.rust-lang.org/

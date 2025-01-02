@@ -54,7 +54,6 @@ fn main() {
             StatePlugin,
             GameOverPlugin, 
             WavePlugin,
-            UIPlugin,
         ))
         .add_plugins(WorldInspectorPlugin::new())
         .run();

@@ -68,7 +68,6 @@ struct SpawnInstant(Instant);
 #[derive(Event)]
 pub struct PlayerEnemyCollisionEvent;
 
-// works however need to add a timer between attacks
 fn handle_collision_events(
     mut tower_query: Query<&mut TowerHealth, With<TowerHealth>>,
     mut events: EventReader<PlayerEnemyCollisionEvent>,
@@ -110,7 +109,6 @@ fn add_tower(
     commands.spawn((
         SpriteBundle {
             transform: Transform::from_xyz(0., 0., 0.),
-            // tower asset not loading for now
             texture: asset_server.load("sprites/tower.png"),
             ..default()
         },
@@ -163,8 +161,6 @@ fn shoot_enemies(
             if pos.distance_squared(enemy_pos) > range_squared {
                 continue;
             } 
-            // if you remove the break below you have a tower that shoots
-            // all enemies; this could be used in the future ?
             let texture = asset_server.load("sprites/bullet.png");
             spawn_bullets(&mut commands, texture, entity);
             break; 
