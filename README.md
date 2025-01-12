@@ -96,9 +96,9 @@ To compile the project locally, ensure that [rust](https://www.rust-lang.org/too
 <!-- SCREENSHOTS -->
 ## Screenshots
 
-![First GIF][assets/github/firstGIF.png]
-![Update][assets/github/Update32.03.24.png]
-![First Build][assets/github/FirstBuild.png]
+![First GIF][firstgif-screenshot]
+![Update][update-screenshot]
+![First Build][fb-screenshot]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -152,3 +152,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [rust-url]: https://www.rust-lang.org/
 [bevy]: https://img.shields.io/badge/Bevy-232326?logo=bevy&logoColor=fff&style=flat
 [bevy-url]: https://bevyengine.org/
+[fb-screenshot]: assets/github/FirstBuild.png
+[update-screenshot]: assets/github/Update32.03.24.png 
+[firstgif-screenshot]: assets/github/firstGIF.png
