@@ -18,6 +18,7 @@ use plugins::{
     game_over::GameOverPlugin,
     waves::WavePlugin,
     ui::UIPlugin,
+    tilemap::TilemapPlugin
 };
 
 fn main() {
@@ -54,6 +55,8 @@ fn main() {
             StatePlugin,
             GameOverPlugin, 
             WavePlugin,
+            UIPlugin,
+            TilemapPlugin,
         ))
         .add_plugins(WorldInspectorPlugin::new())
         .run();

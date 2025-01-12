@@ -16,6 +16,7 @@ bevy-inspector-egui = "0.23.4"
 rand = "0.8.5"
 kd-tree = "0.5.3"
 typenum = "1.17.0"
+bevy_ecs_tilemap = { git = "https://github.com/divark/bevy_ecs_tilemap.git", branch = "0.12-fixes", features = [ "atlas" ] }
 
 [profile.dev]
 opt-level = 1
