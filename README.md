@@ -153,5 +153,5 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [bevy]: https://img.shields.io/badge/Bevy-232326?logo=bevy&logoColor=fff&style=flat
 [bevy-url]: https://bevyengine.org/
 [fb-screenshot]: assets/github/FirstBuild.png
-[update-screenshot]: assets/github/Update32.03.24.png 
+[update-screenshot]: assets/github/Update23.03.24.png 
 [firstgif-screenshot]: assets/github/firstGIF.gif
